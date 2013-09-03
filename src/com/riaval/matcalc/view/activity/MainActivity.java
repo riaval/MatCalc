@@ -2,10 +2,10 @@ package com.riaval.matcalc.view.activity;
 
 import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.TableLayout;
@@ -50,6 +50,8 @@ public class MainActivity extends Activity {
 	        case R.id.action_edit:
 	            return true;
 	        case R.id.action_result:
+	        	Intent intent = new Intent(this, ResultActivity.class);
+				startActivity(intent);
 	            return true;
 	        default:
 	            return super.onOptionsItemSelected(item);
