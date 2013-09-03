@@ -1,9 +1,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/action_edit"
+        android:icon="@drawable/navigation_edit"
         android:orderInCategory="100"
-        android:showAsAction="never"
-        android:title="@string/action_settings"/>
+        android:showAsAction="ifRoom|withText"
+        android:title="@string/action_edit"/>
+    <item
+        android:id="@+id/action_result"
+        android:icon="@drawable/navigation_result"
+        android:orderInCategory="100"
+        android:showAsAction="ifRoom|withText"
+        android:title="@string/action_result"/>
 
 </menu>

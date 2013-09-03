@@ -3,6 +3,8 @@
 
     <string name="app_name">MatCalc</string>
     <string name="action_settings">Settings</string>
+    <string name="action_edit">Edit dimension</string>
+    <string name="action_result">Show result</string>
     <string name="hello_world">Hello world!</string>
 
 </resources>
