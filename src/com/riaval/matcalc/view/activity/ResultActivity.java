@@ -2,69 +2,90 @@ package com.riaval.matcalc.view.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.text.Html;
+import android.view.LayoutInflater;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.riaval.matcalc.R;
+import com.riaval.matcalc.model.Matrix;
+import com.riaval.matcalc.model.Storage;
 
 public class ResultActivity extends Activity {
 	
-//	// TODO: delete this array
-//	private int[][] arr = new int[][] {
-//			  {3, 4, 5, 6, 7}
-//			, {2, 3, 4, 9, 6}
-//			, {1, 2, 3, 4, 5}
-//			, {5, 2, 5, 7, 1}
-//	};
-	
-	// TODO: delete this array
-		private int[][] arr = new int[][] {
-				  {21, 2, 3, 4}
-				, {5, 6, 21, 8}
-				, {9, 10, 11, 12}
-				, {13, 14, 15, 16}
-		};
+	private double det;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_result);
 		
-		TextView textView = (TextView) findViewById(R.id.result_det);
-		textView.setText( String.valueOf(count(arr)) );
-		
-	}
+		double[][] value = null;
+		double[] answer = null;
+		try {
+			value = Storage.getA();
+			answer = Storage.getB();
+		} catch (NullPointerException e) {
+			finish();
+		}
 
-	private int count(int[][] arr) {
-		int length = arr.length;
-		int all = 0;
+		LinearLayout rootView = (LinearLayout) findViewById(R.id.resultLayout);
+		LayoutInflater inflater = this.getLayoutInflater();
+		TextView textView = (TextView) inflater.inflate(R.layout.text_view_result, null);
+		det = Matrix.getDeterminant(value);
+		textView.setText("Δ = " + String.valueOf(det));
+		rootView.addView(textView);
+		rootView.addView(new TextView(this));
 		
-		if (length == 2){
-			int atr1 = arr[0][0] * arr[1][1];
-			int atr2 = arr[0][1] * arr[1][0];
-			return atr1 - atr2;
-		} else {
-			int[][] newArr = new int[length-1][length-1];
-			
-			for (int i = 0; i < length; i++) {
-				int result = (int) (arr[0][i] * Math.pow(-1, i+2));
-				
-				for (int j = 1; j < length; j++) {
-					int pr = 0;
-					for (int k = 0; k < length; k++) {
-						if (k == i) {
-							if (pr == 0)
-								pr++;
-							continue;
-						}
-						newArr[j-1][k-pr] = arr[j][k];
-					} // k
-				} // j
-				
-				all += result * count(newArr);
-			} // i
+		if (det == 0) {
+			return;
 		}
 		
-		return all;
+		int length = answer.length;
+		double[] swapedAnswers = new double[length];
+		for (int i = 0; i < length; i++) {
+			double[][] newArr = new double[length][length];
+			for (int j = 0; j < length; j++) {
+				for (int k = 0; k < length; k++) {
+					if (k == i) {
+						newArr[j][k] = answer[j];
+					} else {
+						newArr[j][k] = value[j][k];
+					}
+				}
+			}
+			TextView textVarView = (TextView) inflater.inflate(R.layout.text_view_result, null);
+			double xDet = round(Matrix.getDeterminant(newArr), 2);
+			swapedAnswers[i] = round((xDet/det), 2);
+			textVarView.setText(Html.fromHtml(
+					"Δx<sub><small><small>" + 
+					String.valueOf(i+1) + 
+					"</small></small></sub> = " + 
+					String.valueOf(xDet))
+			);
+			rootView.addView(textVarView);
+		}
+		rootView.addView(new TextView(this));
+		for (int i = 0; i < length; i++) {
+			TextView textVarView = (TextView) inflater.inflate(R.layout.text_view_result, null);
+			textVarView.setText(Html.fromHtml(
+					"x<sub><small><small>" + 
+					String.valueOf(i+1) + 
+					"</small></small></sub> = " + 
+					String.valueOf(swapedAnswers[i]))
+			);
+			rootView.addView(textVarView);
+		}
+		
 	}
 	
+	public static double round(double value, int places) {
+	    if (places < 0) throw new IllegalArgumentException();
+
+	    long factor = (long) Math.pow(10, places);
+	    value = value * factor;
+	    long tmp = Math.round(value);
+	    return (double) tmp / factor;
+	}
+
 }
