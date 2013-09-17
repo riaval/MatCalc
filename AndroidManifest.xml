@@ -30,6 +30,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.riaval.matcalc.view.activity.MainActivi" />
         </activity>
+        <activity
+            android:name="com.riaval.matcalc.view.activity.InvertibleActivity"
+            android:label="@string/rank_activity"
+            android:parentActivityName="com.riaval.matcalc.view.activity.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.riaval.matcalc.view.activity.MainActivi" />
+        </activity>
     </application>
 
 </manifest>

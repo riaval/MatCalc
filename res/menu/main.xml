@@ -12,5 +12,12 @@
         android:orderInCategory="100"
         android:showAsAction="ifRoom|withText"
         android:title="@string/action_result"/>
+    
+    <item
+        android:id="@+id/action_rank"
+        android:icon="@drawable/navigation_rank"
+        android:orderInCategory="100"
+        android:showAsAction="ifRoom|withText"
+        android:title="@string/action_rank"/>
 
 </menu>

@@ -59,6 +59,7 @@ public class MainActivity extends Activity {
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		Intent intent = null;
 	    switch (item.getItemId()) {
 	        case R.id.action_edit:
 	        	AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -84,43 +85,51 @@ public class MainActivity extends Activity {
 			    dialog.show();
 	            return true;
 	        case R.id.action_result:
-	        	TableLayout table = (TableLayout) findViewById(R.id.mainGridLayout);
-	        	double[][] resultArray = new double[sFildSize][sFildSize];
-	        	for (int i = 0; i < sFildSize; i++) {
-	        		TableRow row = (TableRow) table.getChildAt(i);
-	        		for (int j = 0; j < sFildSize; j++) {
-	        			EditText edit = (EditText) row.getChildAt(j);
-	        			double value;
-	        			try {
-	        				value = Double.parseDouble(edit.getText().toString());
-						} catch (NumberFormatException e) {
-							value = 0;
-						}
-	        			
-	        			resultArray[i][j] = value;
-					}
-				}
-	        	Storage.setA(resultArray);
-	        	
-	        	double[] answer = new double[sFildSize];
-	        	for (int i = 0; i < sFildSize; i++) {
-	        		TableRow row = (TableRow) table.getChildAt(i);
-	        		EditText edit = (EditText) row.getChildAt(sFildSize);
-	        		try {
-//	        			System.out.println(edit.getText().toString());
-	        			answer[i] = Double.parseDouble(edit.getText().toString());
-					} catch (NumberFormatException e) {
-						answer[i] = 0;
-					}
-	        	}
-	        	Storage.setB(answer);
-	        	
-	        	Intent intent = new Intent(this, ResultActivity.class);
+	        	prepareValues();	        	
+	        	intent = new Intent(this, ResultActivity.class);
+				startActivity(intent);
+	            return true;
+	        case R.id.action_rank:
+	        	prepareValues();	        	
+	        	intent = new Intent(this, InvertibleActivity.class);
 				startActivity(intent);
 	            return true;
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }
+	}
+	
+	private void prepareValues(){
+		TableLayout table = (TableLayout) findViewById(R.id.mainGridLayout);
+    	double[][] resultArray = new double[sFildSize][sFildSize];
+    	for (int i = 0; i < sFildSize; i++) {
+    		TableRow row = (TableRow) table.getChildAt(i);
+    		for (int j = 0; j < sFildSize; j++) {
+    			EditText edit = (EditText) row.getChildAt(j);
+    			double value;
+    			try {
+    				value = Double.parseDouble(edit.getText().toString());
+				} catch (NumberFormatException e) {
+					value = 0;
+				}
+    			
+    			resultArray[i][j] = value;
+			}
+		}
+    	Storage.setA(resultArray);
+    	
+    	double[] answer = new double[sFildSize];
+    	for (int i = 0; i < sFildSize; i++) {
+    		TableRow row = (TableRow) table.getChildAt(i);
+    		EditText edit = (EditText) row.getChildAt(sFildSize);
+    		try {
+//    			System.out.println(edit.getText().toString());
+    			answer[i] = Double.parseDouble(edit.getText().toString());
+			} catch (NumberFormatException e) {
+				answer[i] = 0;
+			}
+    	}
+    	Storage.setB(answer);
 	}
 
 }

@@ -21,6 +21,35 @@ public class Matrix {
 
 	}
 
+	public static double[][] getInvertible(double[][] arr) {
+		double[][] result = new double[arr.length][arr.length];
+		double[][] mathAddition = new double[arr.length - 1][arr.length - 1];
+		double det = getDeterminant(arr);
+
+		for (int i = 0; i < arr.length; i++) {
+			for (int j = 0; j < arr.length; j++) {
+				boolean p1 = false;
+				for (int k = 0; k < arr.length; k++) {
+					if (i == k) {
+						p1 = true;
+						continue;
+					}
+					boolean p2 = false;
+					for (int k2 = 0; k2 < arr.length; k2++) {
+						if (j == k2) {
+							p2 = true;
+							continue;
+						}
+						mathAddition[k-(p1?1:0)][k2-(p2?1:0)] = arr[k][k2];
+					}
+				}
+
+				result[j][i] = Math.pow(-1, i + j) * getDeterminant(mathAddition) / det;
+			}
+		}
+		return result;
+	}
+
 	private static double get2DimDet(double[][] arr) {
 		int length = arr.length;
 
@@ -58,6 +87,15 @@ public class Matrix {
 			all += result * getDeterminant(newArr);
 		} // i
 		return all;
+	}
+
+	public static double round(double value, int places) {
+	    if (places < 0) throw new IllegalArgumentException();
+	
+	    long factor = (long) Math.pow(10, places);
+	    value = value * factor;
+	    long tmp = Math.round(value);
+	    return (double) tmp / factor;
 	}
 
 }

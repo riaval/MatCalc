@@ -39,7 +39,7 @@ public class ResultActivity extends Activity {
 		
 		if (det == 0) {
 			return;
-		}
+		} 
 		
 		int length = answer.length;
 		double[] swapedAnswers = new double[length];
@@ -55,8 +55,8 @@ public class ResultActivity extends Activity {
 				}
 			}
 			TextView textVarView = (TextView) inflater.inflate(R.layout.text_view_result, null);
-			double xDet = round(Matrix.getDeterminant(newArr), 2);
-			swapedAnswers[i] = round((xDet/det), 2);
+			double xDet = Matrix.round(Matrix.getDeterminant(newArr), 2);
+			swapedAnswers[i] = Matrix.round((xDet/det), 2);
 			textVarView.setText(Html.fromHtml(
 					"Δx<sub><small><small>" + 
 					String.valueOf(i+1) + 
@@ -77,15 +77,6 @@ public class ResultActivity extends Activity {
 			rootView.addView(textVarView);
 		}
 		
-	}
-	
-	public static double round(double value, int places) {
-	    if (places < 0) throw new IllegalArgumentException();
-
-	    long factor = (long) Math.pow(10, places);
-	    value = value * factor;
-	    long tmp = Math.round(value);
-	    return (double) tmp / factor;
 	}
 
 }
